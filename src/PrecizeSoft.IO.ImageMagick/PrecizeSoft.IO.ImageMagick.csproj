@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>PrecizeSoft.IO</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Magick.NET.Core-Q16" Version="7.0.4.701" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PrecizeSoft.IO\PrecizeSoft.IO.csproj" />
+  </ItemGroup>
+
+</Project>

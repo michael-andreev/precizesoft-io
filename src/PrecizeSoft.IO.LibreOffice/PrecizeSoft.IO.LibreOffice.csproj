@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>PrecizeSoft.IO</RootNamespace>
+    <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PrecizeSoft.IO\PrecizeSoft.IO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="cli_basetypes">
+      <HintPath>..\..\..\get-pdf-online\lib\LibreOfficeSdk530\cli_basetypes.dll</HintPath>
+    </Reference>
+    <Reference Include="cli_cppuhelper">
+      <HintPath>..\..\..\get-pdf-online\lib\LibreOfficeSdk530\cli_cppuhelper.dll</HintPath>
+    </Reference>
+    <Reference Include="cli_oootypes">
+      <HintPath>..\..\..\get-pdf-online\lib\LibreOfficeSdk530\cli_oootypes.dll</HintPath>
+    </Reference>
+    <Reference Include="cli_ure">
+      <HintPath>..\..\..\get-pdf-online\lib\LibreOfficeSdk530\cli_ure.dll</HintPath>
+    </Reference>
+    <Reference Include="cli_uretypes">
+      <HintPath>..\..\..\get-pdf-online\lib\LibreOfficeSdk530\cli_uretypes.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
