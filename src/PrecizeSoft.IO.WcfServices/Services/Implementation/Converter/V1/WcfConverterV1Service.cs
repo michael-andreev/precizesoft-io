@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -28,18 +29,25 @@ namespace PrecizeSoft.IO.Services.Implementation.Converter.V1
 
             ServiceConfigurationManager manager = new ServiceConfigurationManager();
 
-            ContractDescription contract = ContractDescription.GetContract(typeof(IService));
+            /*ContractDescription contract = ContractDescription.GetContract(typeof(IService));
             ServiceEndpoint endpoint = new ServiceEndpoint(contract, manager.CreateBinding(), new EndpointAddress(address));
+            config.AddServiceEndpoint(endpoint);*/
 
-            config.AddServiceEndpoint(endpoint);
+            config.AddServiceEndpoint(manager.CreateRestServiceEndpoint(address));
+
             config.Description.Behaviors.Add(new ServiceMetadataBehavior { HttpGetEnabled = true });
             config.Description.Behaviors.Add(new ServiceDebugBehavior { IncludeExceptionDetailInFaults = true });
         }
 
-        public byte[] ConvertToPdf(byte[] source, string fileExtension)
+        public ConvertResultMessage Convert(ConvertMessage message)
+        {
+            return new ConvertResultMessage() { result = this.converter.Convert(message.source, message.fileExtension) };
+        }
+
+        /*public Stream Convert(Stream source, string fileExtension)
         {
             return this.converter.Convert(source, fileExtension);
-        }
+        }*/
 
         public string Test()
         {

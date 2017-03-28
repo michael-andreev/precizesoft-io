@@ -39,5 +39,10 @@ namespace PrecizeSoft.IO.Converters
         {
             return new WcfConverterV1(binding, remoteAddress);
         }
+        public static IFileConverter CreateRestConverterV1(this ConverterFactory factory, EndpointAddress remoteAddress)
+        {
+            return new RestConverterV1(remoteAddress);
+        }
+
     }
 }

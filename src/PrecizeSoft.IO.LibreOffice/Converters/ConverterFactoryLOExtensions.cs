@@ -49,7 +49,7 @@ namespace PrecizeSoft.IO.Converters
         {
             return CreateLOWriterToPdfConverter(factory, false, null);
         }
-        public static IFileConverter CreaCreateLOWriterToPdfConverterteLOToPdfConverter(this ConverterFactory factory, bool configureEnvironment)
+        public static IFileConverter CreateLOWriterToPdfConverter(this ConverterFactory factory, bool configureEnvironment)
         {
             return CreateLOWriterToPdfConverter(factory, configureEnvironment, null);
         }

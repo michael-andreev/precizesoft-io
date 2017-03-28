@@ -7,6 +7,8 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using PrecizeSoft.IO.Services.Configuration.Converter.V1;
 using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
+using System.ServiceModel.Description;
+using System.IO;
 
 namespace PrecizeSoft.IO.Services.Clients.Converter.V1
 {
@@ -44,9 +46,9 @@ namespace PrecizeSoft.IO.Services.Clients.Converter.V1
         {
         }
 
-        public byte[] ConvertToPdf(byte[] source, string fileExtension)
+        public ConvertResultMessage Convert(ConvertMessage message)
         {
-            return base.Channel.ConvertToPdf(source, fileExtension);
+            return base.Channel.Convert(message);
         }
 
         public string Test()

@@ -20,4 +20,8 @@
     <ProjectReference Include="..\PrecizeSoft.IO\PrecizeSoft.IO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.ServiceModel.Web" />
+  </ItemGroup>
+
 </Project>

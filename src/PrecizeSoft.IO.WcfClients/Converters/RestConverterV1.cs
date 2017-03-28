@@ -9,38 +9,38 @@ using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
 
 namespace PrecizeSoft.IO.Converters
 {
-    public class WcfConverterV1 : IFileConverter
+    public class RestConverterV1 : IFileConverter
     {
-        protected ServiceClient client = null;
+        protected RestServiceClient client = null;
 
-        public WcfConverterV1()
+        public RestConverterV1()
         {
-            this.client = new ServiceClient();
+            this.client = new RestServiceClient();
         }
 
-        public WcfConverterV1(EndpointAddress remoteAddress)
+        public RestConverterV1(EndpointAddress remoteAddress)
         {
-            this.client = new ServiceClient(remoteAddress);
+            this.client = new RestServiceClient(remoteAddress);
         }
 
-        public WcfConverterV1(string endpointConfigurationName)
+        public RestConverterV1(string endpointConfigurationName)
         {
-            this.client = new ServiceClient(endpointConfigurationName);
+            this.client = new RestServiceClient(endpointConfigurationName);
         }
 
-        public WcfConverterV1(string endpointConfigurationName, string remoteAddress)
+        public RestConverterV1(string endpointConfigurationName, string remoteAddress)
         {
-            this.client = new ServiceClient(endpointConfigurationName, remoteAddress);
+            this.client = new RestServiceClient(endpointConfigurationName, remoteAddress);
         }
 
-        public WcfConverterV1(string endpointConfigurationName, EndpointAddress remoteAddress)
+        public RestConverterV1(string endpointConfigurationName, EndpointAddress remoteAddress)
         {
-            this.client = new ServiceClient(endpointConfigurationName, remoteAddress);
+            this.client = new RestServiceClient(endpointConfigurationName, remoteAddress);
         }
 
-        public WcfConverterV1(Binding binding, EndpointAddress remoteAddress)
+        public RestConverterV1(Binding binding, EndpointAddress remoteAddress)
         {
-            this.client = new ServiceClient(binding, remoteAddress);
+            this.client = new RestServiceClient(binding, remoteAddress);
         }
 
         public IEnumerable<string> SupportedFormatCollection => throw new NotImplementedException();
