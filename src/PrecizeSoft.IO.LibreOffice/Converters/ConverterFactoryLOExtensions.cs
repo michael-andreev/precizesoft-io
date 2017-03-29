@@ -12,7 +12,7 @@ namespace PrecizeSoft.IO.Converters
         {
             if (string.IsNullOrEmpty(libreOfficeUnoPath))
             {
-                if (LOComponentLoader.Instance.IsAvailable)
+                if (!LOComponentLoader.Instance.IsAvailable)
                 {
                     LOEnvironment.ConfigureFromRegistry();
                 }

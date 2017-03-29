@@ -29,7 +29,7 @@ namespace PrecizeSoft.IO.Converters
 
         protected override void InternalConvert(string sourceFileName, string destinationFileName)
         {
-            Debug.WriteLine($"Start Convert: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
+            //Debug.WriteLine($"Start Convert: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
 
             /*try
             {*/
@@ -53,7 +53,7 @@ namespace PrecizeSoft.IO.Converters
 
             try
             {
-                Debug.WriteLine($"File opened: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
+                //Debug.WriteLine($"File opened: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
 
                 string destinationFullPath = Path.GetFullPath(destinationFileName);
                 string destinationDirectory = Path.GetDirectoryName(destinationFullPath);
@@ -93,7 +93,7 @@ namespace PrecizeSoft.IO.Converters
                 else if (saveException != null)
                     throw saveException;
 
-                Debug.WriteLine($"File saved: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
+                //Debug.WriteLine($"File saved: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
             }
             finally
             {
@@ -112,7 +112,7 @@ namespace PrecizeSoft.IO.Converters
                 if (!closeThread.Join(this.CloseTimeout))
                     closeThread.Abort();
 
-                Debug.WriteLine($"File closed: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
+                //Debug.WriteLine($"File closed: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
             }
             /*}
             catch (System.Exception e)

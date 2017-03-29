@@ -24,11 +24,12 @@ namespace PrecizeSoft.IO.Services.Configuration.Converter.V1
 
         public Binding CreateBinding()
         {
-            BasicHttpBinding binding = new BasicHttpBinding();
-            binding.Namespace = "http://io.precizesoft.com/converter/v1/";
-            binding.MaxReceivedMessageSize = 100 * 1024 * 1024;
-            binding.MessageEncoding = WSMessageEncoding.Mtom;
-
+            BasicHttpBinding binding = new BasicHttpBinding()
+            {
+                Namespace = "http://io.precizesoft.com/converter/v1/",
+                MaxReceivedMessageSize = 100 * 1024 * 1024,
+                MessageEncoding = WSMessageEncoding.Mtom
+            };
             return binding;
         }
 
