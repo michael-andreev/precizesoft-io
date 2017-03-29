@@ -27,7 +27,7 @@ namespace PrecizeSoft.IO.Converters
 
         public TimeSpan CloseTimeout { get; set; } = new TimeSpan(0, 0, 10);
 
-        public override void Convert(string sourceFileName, string destinationFileName)
+        protected override void InternalConvert(string sourceFileName, string destinationFileName)
         {
             Debug.WriteLine($"Start Convert: {Thread.CurrentThread.ManagedThreadId} - {sourceFileName} - {destinationFileName}");
 

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using PrecizeSoft.IO.Converters;
 using PrecizeSoft.IO.Services.Configuration.Converter.V1;
 using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
+using PrecizeSoft.IO.Services.MessageContracts.Converter.V1;
+using PrecizeSoft.IO.Services.FaultContracts.Converter.V1;
 
 namespace PrecizeSoft.IO.Services.Implementation.Converter.V1
 {
@@ -17,7 +19,7 @@ namespace PrecizeSoft.IO.Services.Implementation.Converter.V1
     /// </summary>
     /// <typeparam name="TFileConverter">Must have a default constructor, because the wcf service must have
     /// a default constructor too for scalability support</typeparam>
-    [ServiceBehavior(Namespace = "http://api.getpdf.online/converter/v1/", ConcurrencyMode = ConcurrencyMode.Multiple)]
+    [ServiceBehavior(Namespace = "http://io.precizesoft.com/converter/v1/", ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class WcfConverterV1Service<TFileConverter> : IService
         where TFileConverter : IFileConverter, new()
     {
@@ -29,29 +31,47 @@ namespace PrecizeSoft.IO.Services.Implementation.Converter.V1
 
             ServiceConfigurationManager manager = new ServiceConfigurationManager();
 
-            /*ContractDescription contract = ContractDescription.GetContract(typeof(IService));
+            ContractDescription contract = ContractDescription.GetContract(typeof(IService));
             ServiceEndpoint endpoint = new ServiceEndpoint(contract, manager.CreateBinding(), new EndpointAddress(address));
-            config.AddServiceEndpoint(endpoint);*/
-
-            config.AddServiceEndpoint(manager.CreateRestServiceEndpoint(address));
+            config.AddServiceEndpoint(endpoint);
+            //config.AddServiceEndpoint(manager.CreateServiceEndpoint(address));
 
             config.Description.Behaviors.Add(new ServiceMetadataBehavior { HttpGetEnabled = true });
             config.Description.Behaviors.Add(new ServiceDebugBehavior { IncludeExceptionDetailInFaults = true });
         }
 
-        public ConvertResultMessage Convert(ConvertMessage message)
+        public ConvertResponse Convert(MessageContracts.Converter.V1.Convert message)
         {
-            return new ConvertResultMessage() { result = this.converter.Convert(message.source, message.fileExtension) };
+            FaultExceptionFactory faultFactory = new FaultExceptionFactory();
+
+            try
+            {
+                return new ConvertResponse() { FileBytes = this.converter.Convert(message.FileBytes, message.FileExtension) };
+            }
+            catch (SourceBytesNullException)
+            {
+                throw faultFactory.CreateFileBytesEmptyFaultException();
+            }
+            catch(FileExtensionNullException)
+            {
+                throw faultFactory.CreateFileExtensionEmptyFaultException();
+            }
+            catch(InvalidFileExtensionException)
+            {
+                throw faultFactory.CreateInvalidFileExtensionFaultException();
+            }
+            catch (FormatNotSupportedException)
+            {
+                throw faultFactory.CreateFormatNotSupportedFaultException();
+            }
         }
 
-        /*public Stream Convert(Stream source, string fileExtension)
+        public GetSupportedFormatsResponse GetSupportedFormats()
         {
-            return this.converter.Convert(source, fileExtension);
-        }*/
-
-        public string Test()
-        {
-            return "Hello!";
+            return new GetSupportedFormatsResponse
+            {
+                SupportedFormats = this.converter.SupportedFormatCollection
+            };
         }
     }
 }

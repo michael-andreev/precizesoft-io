@@ -42,31 +42,28 @@ namespace PrecizeSoft.IO.Converters
 
         public Stream Convert(Stream sourceStream, string fileExtension)
         {
-            this.ValidateFileExtension(fileExtension);
+            new FileConverterValidator(this.SupportedFormatCollection)
+                .ValidateConvertParameters(sourceStream, fileExtension);
 
             return this.GetConverterByFileExtension(fileExtension).Convert(sourceStream, fileExtension);
         }
 
         public byte[] Convert(byte[] sourceBytes, string fileExtension)
         {
-            this.ValidateFileExtension(fileExtension);
+            new FileConverterValidator(this.SupportedFormatCollection)
+                .ValidateConvertParameters(sourceBytes, fileExtension);
 
             return this.GetConverterByFileExtension(fileExtension).Convert(sourceBytes, fileExtension);
         }
 
         public void Convert(string sourceFileName, string destinationFileName)
         {
+            new FileConverterValidator(this.SupportedFormatCollection)
+                .ValidateConvertParameters(sourceFileName, destinationFileName);
+
             string sourceFileNameExtension = Path.GetExtension(sourceFileName).ToLower();
 
-            this.ValidateFileExtension(sourceFileNameExtension);
-
             this.GetConverterByFileExtension(sourceFileNameExtension).Convert(sourceFileName, destinationFileName);
-        }
-
-        protected void ValidateFileExtension(string fileExtension)
-        {
-            if (!PathHelper.IsValidExtension(fileExtension))
-                throw new ArgumentException("File extension in invalid.");
         }
 
         protected IFileConverter GetConverterByFileExtension(string extension)

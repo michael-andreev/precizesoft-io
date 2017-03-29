@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.Text;
 using PrecizeSoft.IO.Services.Clients.Converter.V1;
-using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
+using PrecizeSoft.IO.Services.MessageContracts.Converter.V1;
 
 namespace PrecizeSoft.IO.Converters
 {
-    public class WcfConverterV1 : IFileConverter
+    public class WcfConverterV1 : BytesFileConverter
     {
         protected ServiceClient client = null;
 
@@ -43,47 +41,22 @@ namespace PrecizeSoft.IO.Converters
             this.client = new ServiceClient(binding, remoteAddress);
         }
 
-        public IEnumerable<string> SupportedFormatCollection => throw new NotImplementedException();
-
-        public void Convert(string sourceFileName, string destinationFileName)
+        public override IEnumerable<string> SupportedFormatCollection
         {
-            byte[] sourceFileBytes = File.ReadAllBytes(sourceFileName);
-
-            byte[] destinationFileBytes = this.Convert(sourceFileBytes, Path.GetExtension(sourceFileName));
-
-            File.WriteAllBytes(destinationFileName, destinationFileBytes);
-
-            /*byte[] sourceFileBytes = File.ReadAllBytes(sourceFileName);
-
-            byte[] destinationFileBytes = client.ConvertToPdf(sourceFileBytes, Path.GetExtension(sourceFileName));
-
-            File.WriteAllBytes(destinationFileName, destinationFileBytes);*/
-        }
-
-        public Stream Convert(Stream sourceStream, string fileExtension)
-        {
-            ConvertMessage message = new ConvertMessage();
-            message.source = sourceStream;
-            message.fileExtension = fileExtension;
-            return client.Convert(message).result;
-        }
-
-        public byte[] Convert(byte[] sourceBytes, string fileExtension)
-        {
-            Stream destinationStream;
-
-            using (MemoryStream stream = new MemoryStream(sourceBytes))
+            get
             {
-                destinationStream = this.Convert(stream, fileExtension);
+                return this.client.GetSupportedFormats().SupportedFormats;
             }
+        }
 
-            byte[] destinationBytes = new byte[destinationStream.Length];
-            destinationStream.Read(destinationBytes, 0, (int)destinationStream.Length);
-            destinationStream.Close();
-
-            return destinationBytes;
-
-            //return client.ConvertToPdf(sourceBytes, fileExtension);
+        protected override byte[] InternalConvert(byte[] sourceBytes, string fileExtension)
+        {
+            Services.MessageContracts.Converter.V1.Convert message = new Services.MessageContracts.Converter.V1.Convert()
+            {
+                FileBytes = sourceBytes,
+                FileExtension = fileExtension
+            };
+            return client.Convert(message).FileBytes;
         }
     }
 }

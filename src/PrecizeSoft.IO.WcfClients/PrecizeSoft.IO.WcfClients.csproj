@@ -7,8 +7,6 @@
 
   <ItemGroup>
     <Folder Include="Services\DataContracts\" />
-    <Folder Include="Services\FaultContracts\" />
-    <Folder Include="Services\MessageContracts\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,10 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PrecizeSoft.IO\PrecizeSoft.IO.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.ServiceModel.Web" />
   </ItemGroup>
 
 </Project>

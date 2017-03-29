@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using PrecizeSoft.IO.Services.Configuration.Converter.V1;
 using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
+using PrecizeSoft.IO.Services.MessageContracts.Converter.V1;
 using System.ServiceModel.Description;
 using System.IO;
 
@@ -46,14 +47,14 @@ namespace PrecizeSoft.IO.Services.Clients.Converter.V1
         {
         }
 
-        public ConvertResultMessage Convert(ConvertMessage message)
+        public ConvertResponse Convert(MessageContracts.Converter.V1.Convert message)
         {
             return base.Channel.Convert(message);
         }
 
-        public string Test()
+        public GetSupportedFormatsResponse GetSupportedFormats()
         {
-            return base.Channel.Test();
+            return base.Channel.GetSupportedFormats();
         }
     }
 }

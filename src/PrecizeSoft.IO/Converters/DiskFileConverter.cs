@@ -22,12 +22,20 @@ namespace PrecizeSoft.IO.Converters
             get;
         }
 
-        public abstract void Convert(string sourceFileName, string destinationFileName);
+        protected abstract void InternalConvert(string sourceFileName, string destinationFileName);
+
+        public void Convert(string sourceFileName, string destinationFileName)
+        {
+            new FileConverterValidator(this.SupportedFormatCollection)
+                .ValidateConvertParameters(sourceFileName, destinationFileName);
+
+            this.InternalConvert(sourceFileName, destinationFileName);
+        }
 
         public Stream Convert(Stream sourceStream, string fileExtension)
         {
-            if (sourceStream == null)
-                throw new ArgumentNullException("sourceStream");
+            new FileConverterValidator(this.SupportedFormatCollection)
+                .ValidateConvertParameters(sourceStream, fileExtension);
 
             string sourceTempFileName = null;
             string destinationTempFileName = Path.GetTempFileName() + destinationFileExtension;
@@ -39,7 +47,7 @@ namespace PrecizeSoft.IO.Converters
                 #region Converting file
                 if (sourceStream is FileStream)
                 {
-                    this.Convert(((FileStream)sourceStream).Name, destinationTempFileName);
+                    this.InternalConvert(((FileStream)sourceStream).Name, destinationTempFileName);
                 }
                 else
                 {
@@ -48,7 +56,7 @@ namespace PrecizeSoft.IO.Converters
                     {
                         sourceStream.CopyTo(sourceFileStream);
                     }
-                    this.Convert(sourceTempFileName, destinationTempFileName);
+                    this.InternalConvert(sourceTempFileName, destinationTempFileName);
                 }
                 #endregion
 
@@ -71,8 +79,8 @@ namespace PrecizeSoft.IO.Converters
 
         public byte[] Convert(byte[] sourceBytes, string fileExtension)
         {
-            if (sourceBytes == null)
-                throw new ArgumentNullException("sourceBytes");
+            new FileConverterValidator(this.SupportedFormatCollection)
+                .ValidateConvertParameters(sourceBytes, fileExtension);
 
             string fileNameWithoutExtension = Guid.NewGuid().ToString();
             string sourceTempFileName = Path.Combine(Path.GetTempPath(), fileNameWithoutExtension + fileExtension);
@@ -84,7 +92,7 @@ namespace PrecizeSoft.IO.Converters
             {
                 File.WriteAllBytes(sourceTempFileName, sourceBytes);
 
-                this.Convert(sourceTempFileName, destinationTempFileName);
+                this.InternalConvert(sourceTempFileName, destinationTempFileName);
 
                 result = File.ReadAllBytes(destinationTempFileName);
             }

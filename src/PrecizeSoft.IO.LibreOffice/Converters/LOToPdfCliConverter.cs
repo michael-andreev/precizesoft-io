@@ -67,7 +67,7 @@ namespace PrecizeSoft.IO.Converters
             }
         }
 
-        public override void Convert(string sourceFileName, string destinationFileName)
+        protected override void InternalConvert(string sourceFileName, string destinationFileName)
         {
             string sourceDir = Path.GetDirectoryName(sourceFileName);
             string sourceFileNameWithoutDir = Path.GetFileName(sourceFileName);
