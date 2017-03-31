@@ -21,7 +21,8 @@ namespace PrecizeSoft.IO.Converters
             {
                 new LOWriterToPdfConverter(),
                 new LOCalcToPdfConverter(),
-                new LOImpressToPdfConverter()
+                new LOImpressToPdfConverter(),
+                new LODrawToPdfConverter()
             };
             return collection;
         }

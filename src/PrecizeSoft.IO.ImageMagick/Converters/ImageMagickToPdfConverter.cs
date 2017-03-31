@@ -13,13 +13,16 @@ namespace PrecizeSoft.IO.Converters
         private IEnumerable<string> supportedFormatCollection = new List<string>()
             { ".aai", ".art", ".arw", ".avi", ".avs", ".bpg", ".bmp", ".bmp2", ".bmp3", ".cals",
             ".cgm", ".cin", ".cmyk", ".cmyka", ".cr2", ".crw", ".cur", ".cut", ".dcm", ".dcr",
-            ".dcx", ".dds", ".dib", ".djvu", ".dng", ".dot", ".dpx", ".emf", ".epi", ".eps",
+            ".dcx", ".dds", ".dib", ".djvu", ".dng",
+            //".dot", //Conflict with Word Templates (.dot)
+            ".dpx", ".emf", ".epi", ".eps",
             ".eps2", ".eps3", ".epsf", ".epsi", ".ept", ".exr", ".fax", ".fig", ".fits", ".fpx",
             ".gif", ".gplt", ".gray", ".hdr", ".hpgl", ".hrz", ".ico", ".jbig", ".jng", ".jp2",
             ".jpt", ".j2c", ".j2k", ".jpeg", ".jpg", ".jxr", ".man", ".mat", ".miff", ".mono",
             ".mng", ".m2v", ".mpeg", ".mpc", ".mpr", ".mrw", ".msl", ".mtv", ".mvg", ".nef",
             ".orf", ".otb", ".p7", ".palm", ".pam", ".pbm", ".pcd", ".pcds", ".pcl", ".pcx",
-            ".pdb", ".pef", ".pfa", ".pfb", ".pfm", ".pgm", ".picon", ".pict", ".pix", ".png",
+            //".pdb", //Old format, but prefer to use LibreOffice
+            ".pef", ".pfa", ".pfb", ".pfm", ".pgm", ".picon", ".pict", ".pix", ".png",
             ".png8", ".png00", ".png24", ".png32", ".png48", ".png64", ".pnm", ".ppm", ".ps",
             ".ps2", ".ps3", ".psb", ".psd", ".ptif", ".pwp", ".rad", ".raf", ".rgb", ".rgba",
             ".rfg", ".rla", ".rle", ".sct", ".sfw", ".sgi", ".sid", ".mrsid", ".sun", ".svg",
