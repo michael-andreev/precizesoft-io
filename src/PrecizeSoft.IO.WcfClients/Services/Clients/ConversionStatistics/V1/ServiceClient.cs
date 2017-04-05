@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using PrecizeSoft.IO.Services.Configuration.Converter.V1;
-using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
-using PrecizeSoft.IO.Services.MessageContracts.Converter.V1;
+using PrecizeSoft.IO.Services.Configuration.ConversionStatistics.V1;
+using PrecizeSoft.IO.Services.ServiceContracts.ConversionStatistics.V1;
+using PrecizeSoft.IO.Services.MessageContracts.ConversionStatistics.V1;
 
-namespace PrecizeSoft.IO.Services.Clients.Converter.V1
+namespace PrecizeSoft.IO.Services.Clients.ConversionStatistics.V1
 {
     public partial class ServiceClient : ClientBase<IService>, IService
     {
@@ -45,14 +45,19 @@ namespace PrecizeSoft.IO.Services.Clients.Converter.V1
         {
         }
 
-        public ConvertResponseMessage Convert(MessageContracts.Converter.V1.ConvertMessage message)
+        public GetDailyStatResponseMessage GetDailyStat(GetDailyStatMessage message)
         {
-            return base.Channel.Convert(message);
+            return base.Channel.GetDailyStat(message);
         }
 
-        public GetSupportedFormatsResponseMessage GetSupportedFormats(GetSupportedFormatsMessage message)
+        public GetStatByFileCategoriesResponseMessage GetStatByFileCategories(GetStatByFileCategoriesMessage message)
         {
-            return base.Channel.GetSupportedFormats(message);
+            return base.Channel.GetStatByFileCategories(message);
+        }
+
+        public GetSummaryStatResponseMessage GetSummaryStat(GetSummaryStatMessage message)
+        {
+            return base.Channel.GetSummaryStat(message);
         }
     }
 }

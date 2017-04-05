@@ -8,12 +8,9 @@ using System.Threading.Tasks;
 namespace PrecizeSoft.IO.Services.MessageContracts.Converter.V1
 {
     [MessageContract]
-    public class Convert
+    public class GetSupportedFormatsResponseMessage
     {
         [MessageBodyMember]
-        public string FileExtension { get; set; }
-
-        [MessageBodyMember]
-        public byte[] FileBytes { get; set; }
+        public IEnumerable<string> SupportedFormats { get; set; }
     }
 }

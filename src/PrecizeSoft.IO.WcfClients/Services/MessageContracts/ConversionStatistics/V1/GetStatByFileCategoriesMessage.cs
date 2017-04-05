@@ -5,12 +5,10 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrecizeSoft.IO.Services.MessageContracts.Converter.V1
+namespace PrecizeSoft.IO.Services.MessageContracts.ConversionStatistics.V1
 {
     [MessageContract]
-    public class ConvertResponse
+    public class GetStatByFileCategoriesMessage
     {
-        [MessageBodyMember]
-        public byte[] FileBytes { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace PrecizeSoft.IO.Converters
             if (string.IsNullOrEmpty(destinationFileName))
                 throw new DestinationFileNameNullException("destinationFileName");
 
-            string sourceFileNameExtension = Path.GetExtension(sourceFileName).ToLower();
+            string sourceFileNameExtension = Path.GetExtension(sourceFileName);
 
             this.ValidateFileExtension(sourceFileNameExtension);
         }
@@ -53,7 +53,7 @@ namespace PrecizeSoft.IO.Converters
             if (!PathHelper.IsValidExtension(fileExtension))
                 throw new InvalidFileExtensionException();
 
-            if (!this.supportedFormatCollection.Contains(fileExtension))
+            if (!this.supportedFormatCollection.Contains(fileExtension.ToLower()))
             {
                 throw new FormatNotSupportedException();
             }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
-using PrecizeSoft.IO.Services.ServiceContracts.Converter.V1;
+using PrecizeSoft.IO.Services.ServiceContracts.ConversionStatistics.V1;
 
-namespace PrecizeSoft.IO.Services.Configuration.Converter.V1
+namespace PrecizeSoft.IO.Services.Configuration.ConversionStatistics.V1
 {
     public class ServiceConfigurationManager
     {
-        protected readonly string defaultAddress = "http://api.getpdf.online/Converter/V1/Service.svc";
+        protected readonly string defaultAddress = "http://api.getpdf.online/ConversionStatistics/V1/Service.svc";
 
         public string DefauldAddress
         {
@@ -26,9 +26,8 @@ namespace PrecizeSoft.IO.Services.Configuration.Converter.V1
         {
             BasicHttpBinding binding = new BasicHttpBinding()
             {
-                Namespace = "http://io.precizesoft.com/Converter/V1/",
-                MaxReceivedMessageSize = 100 * 1024 * 1024,
-                MessageEncoding = WSMessageEncoding.Mtom
+                Namespace = "http://io.precizesoft.com/ConversionStatistics/V1/",
+                MaxReceivedMessageSize = 100 * 1024 * 1024
             };
             return binding;
         }

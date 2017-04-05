@@ -8,14 +8,17 @@ using PrecizeSoft.IO.Services.MessageContracts.Converter.V1;
 
 namespace PrecizeSoft.IO.Services.ServiceContracts.Converter.V1
 {
-    [ServiceContract(Name = "Service", Namespace = "http://io.precizesoft.com/converter/v1/")]
+    [ServiceContract(Name = "Service", Namespace = "http://io.precizesoft.com/Converter/V1/")]
     public interface IService
     {
         [OperationContract]
+        [FaultContract(typeof(FileExtensionEmpty))]
+        [FaultContract(typeof(FileBytesEmpty))]
+        [FaultContract(typeof(InvalidFileExtension))]
         [FaultContract(typeof(FormatNotSupported))]
-        ConvertResponse Convert(MessageContracts.Converter.V1.Convert message);
+        ConvertResponseMessage Convert(MessageContracts.Converter.V1.ConvertMessage message);
 
         [OperationContract]
-        GetSupportedFormatsResponse GetSupportedFormats();
+        GetSupportedFormatsResponseMessage GetSupportedFormats(GetSupportedFormatsMessage message);
     }
 }

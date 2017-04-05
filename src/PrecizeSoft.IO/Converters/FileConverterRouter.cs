@@ -35,7 +35,7 @@ namespace PrecizeSoft.IO.Converters
                 var formats =
                     (from P in this.converterCollection
                      from Q in P.SupportedFormatCollection
-                     select Q).Distinct().OrderBy((Q) => { return Q; });
+                     select Q.ToLower()).Distinct().OrderBy((Q) => { return Q; });
                 return formats;
             }
         }
@@ -70,7 +70,7 @@ namespace PrecizeSoft.IO.Converters
         {
             IFileConverter converter =
                 (from P in this.converterCollection
-                 where P.SupportedFormatCollection.Contains(extension)
+                 where P.SupportedFormatCollection.Contains(extension.ToLower())
                  select P).FirstOrDefault();
 
             if (converter == null)

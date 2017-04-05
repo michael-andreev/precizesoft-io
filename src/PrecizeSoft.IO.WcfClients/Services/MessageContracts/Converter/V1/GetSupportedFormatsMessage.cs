@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 namespace PrecizeSoft.IO.Services.MessageContracts.Converter.V1
 {
     [MessageContract]
-    public class GetSupportedFormatsResponse
+    public class GetSupportedFormatsMessage
     {
-        [MessageBodyMember]
-        public IEnumerable<string> SupportedFormats { get; set; }
     }
 }
