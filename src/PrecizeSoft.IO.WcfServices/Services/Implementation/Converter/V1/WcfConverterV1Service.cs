@@ -106,6 +106,7 @@ namespace PrecizeSoft.IO.Services.Implementation.Converter.V1
             {
                 return new ConvertResponseMessage
                 {
+                    RequestId = requestId,
                     FileBytes = fileBytes
                 };
             }

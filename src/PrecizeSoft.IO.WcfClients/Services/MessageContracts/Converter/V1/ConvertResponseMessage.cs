@@ -11,6 +11,9 @@ namespace PrecizeSoft.IO.Services.MessageContracts.Converter.V1
     public class ConvertResponseMessage
     {
         [MessageBodyMember]
+        public Guid RequestId { get; set; }
+
+        [MessageBodyMember]
         public byte[] FileBytes { get; set; }
     }
 }
