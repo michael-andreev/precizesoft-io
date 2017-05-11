@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Linq;
-using PrecizeSoft.IO.Services.Clients.Converter.V1;
-using PrecizeSoft.IO.Services.MessageContracts.Converter.V1;
-using PrecizeSoft.IO.Services.DataContracts.Converter.V1;
+using PrecizeSoft.IO.Wcf.Clients.Converter.V1;
+using PrecizeSoft.IO.Wcf.MessageContracts.Converter.V1;
+using PrecizeSoft.IO.Wcf.DataContracts.Converter.V1;
 using System.Collections;
 
 namespace PrecizeSoft.IO.Converters

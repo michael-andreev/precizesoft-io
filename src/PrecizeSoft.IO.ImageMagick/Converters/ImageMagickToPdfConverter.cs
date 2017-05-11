@@ -39,17 +39,18 @@ namespace PrecizeSoft.IO.Converters
 
         public Stream Convert(Stream sourceStream, string fileExtension)
         {
-            using (MemoryStream result = new MemoryStream())
-            {
-                // Read image from file
-                using (MagickImage image = new MagickImage(sourceStream))
-                {
-                    // Create pdf file with a single page
-                    image.Write(result, new ImageMagickToPdfConverterWriteDefines());
-                }
+            MemoryStream result = new MemoryStream();
 
-                return result;
+            // Read image from file
+            using (MagickImage image = new MagickImage(sourceStream))
+            {
+                // Create pdf file with a single page
+                image.Write(result, new ImageMagickToPdfConverterWriteDefines());
             }
+
+            result.Position = 0;
+
+            return result;
         }
 
         public byte[] Convert(byte[] sourceBytes, string fileExtension)

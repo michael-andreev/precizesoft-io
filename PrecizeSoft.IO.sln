@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrecizeSoft.IO", "src\PrecizeSoft.IO\PrecizeSoft.IO.csproj", "{589EA9BB-417E-45BA-B8B2-57736CFD11C2}"
 EndProject
@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{056C
 		tests\samples\sample.odt = tests\samples\sample.odt
 		tests\samples\sample.rtf = tests\samples\sample.rtf
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrecizeSoft.IO.WebApi", "src\PrecizeSoft.IO.WebApi\PrecizeSoft.IO.WebApi.csproj", "{B9A2A0B8-71F6-471B-85F3-FBCF12FA2EED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{BB66B7D3-6142-4D45-9C98-D9C364DE9BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB66B7D3-6142-4D45-9C98-D9C364DE9BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB66B7D3-6142-4D45-9C98-D9C364DE9BD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A2A0B8-71F6-471B-85F3-FBCF12FA2EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A2A0B8-71F6-471B-85F3-FBCF12FA2EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A2A0B8-71F6-471B-85F3-FBCF12FA2EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A2A0B8-71F6-471B-85F3-FBCF12FA2EED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
