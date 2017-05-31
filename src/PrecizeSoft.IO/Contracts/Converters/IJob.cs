@@ -14,7 +14,9 @@ namespace PrecizeSoft.IO.Contracts.Converters
 
         Guid InputFileId { get; set; }
 
-        Guid OutputFileId { get; set; }
+        Guid? OutputFileId { get; set; }
+
+        ConvertErrorType? ErrorType { get; set; }
 
         DateTime? ExpireDateUtc { get; set; }
 

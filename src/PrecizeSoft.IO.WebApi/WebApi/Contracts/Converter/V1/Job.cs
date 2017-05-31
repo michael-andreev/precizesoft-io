@@ -12,7 +12,8 @@ namespace PrecizeSoft.IO.WebApi.Contracts.Converter.V1
         public Guid JobId { get; set; }
         public Guid? SessionId { get; set; }
         public Guid InputFileId { get; set; }
-        public Guid OutputFileId { get; set; }
+        public Guid? OutputFileId { get; set; }
+        public ConvertErrorType? ErrorType { get; set; }
         public DateTime? ExpireDateUtc { get; set; }
         public byte? Rating { get; set; }
     }

@@ -138,12 +138,13 @@ namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
         public virtual IEnumerable<JobInfo> GetJobsBySession([FromQuery] Guid sessionId)
         {
             IEnumerable<IJob> jobs = this.jobService.GetJobsBySession(sessionId);
-            IEnumerable<Guid> fileIds = jobs.Select(p => p.InputFileId).Concat(jobs.Select(p => p.OutputFileId));
+            IEnumerable<Guid> fileIds = jobs.Select(p => p.InputFileId)
+                .Concat(jobs.Where(p => p.OutputFileId.HasValue).Select(p => p.OutputFileId.Value));
             IEnumerable<IFileInfo> files = this.fileService.GetFilesInfo(fileIds);
 
             return jobs.Select(p => p.ToJobInfo(
                 files.Single(q => q.FileId == p.InputFileId),
-                files.Single(r => r.FileId == p.OutputFileId)));
+                p.OutputFileId.HasValue ? files.Single(r => r.FileId == p.OutputFileId.Value) : null));
         }
 
         protected virtual JobInfo AddJobInternal(Guid? sessionId, IFormFile file)
@@ -191,17 +192,16 @@ namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
                     RequestId = jobId,
                     ResponseDateUtc = DateTime.UtcNow,
                     ResultFileSize = outFileBytes?.Length,
-                    ErrorType = convertException.ToConvertErrorType()
+                    ErrorType = convertException?.ToConvertErrorType()
                 };
 
                 this.logService.LogResponse(responseLog);
             }
 
-            if (convertException == null)
             {
                 StorageFile inputFile = file.ToStorageFile();
 
-                StorageFile outputFile = new StorageFile
+                StorageFile outputFile = (convertException != null) ? null : new StorageFile
                 {
                     FileId = Guid.NewGuid(),
                     FileName = Path.GetFileNameWithoutExtension(file.FileName) + ".pdf",
@@ -217,18 +217,15 @@ namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
                     SessionId = sessionId,
                     Rating = null,
                     InputFileId = inputFile.FileId,
-                    OutputFileId = outputFile.FileId
+                    OutputFileId = outputFile?.FileId,
+                    ErrorType = convertException?.ToConvertErrorType()
                 };
 
                 this.fileService.AddFile(inputFile);
-                this.fileService.AddFile(outputFile);
+                if (outputFile != null ) this.fileService.AddFile(outputFile);
                 this.jobService.AddJob(job);
 
                 return job.ToJobInfo(inputFile, outputFile);
-            }
-            else
-            {
-                throw convertException;
             }
         }
 
@@ -239,7 +236,7 @@ namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
             if (job == null) return null;
 
             IFileInfo inputFile = this.fileService.GetFileInfo(job.InputFileId);
-            IFileInfo outputFile = this.fileService.GetFileInfo(job.OutputFileId);
+            IFileInfo outputFile = (job.OutputFileId == null) ? null : this.fileService.GetFileInfo(job.OutputFileId.Value);
 
             return job.ToJobInfo(inputFile, outputFile);
         }

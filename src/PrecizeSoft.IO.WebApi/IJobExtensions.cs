@@ -19,7 +19,8 @@ namespace PrecizeSoft.IO
                 SessionId = job.SessionId,
                 Rating = job.Rating,
                 InputFile = inputFile.ToStorageFileInfo(),
-                OutputFile = outputFile.ToStorageFileInfo()
+                OutputFile = outputFile?.ToStorageFileInfo(),
+                ErrorType = job.ErrorType
             };
         }
     }
