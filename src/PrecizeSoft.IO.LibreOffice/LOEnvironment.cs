@@ -39,11 +39,14 @@ namespace PrecizeSoft.IO
                 key = key.Insert(key.IndexOf('\\'), @"\Wow6432Node");
 
             // Get the LibreOffice "program" directory
-            string libreOfficePath;
+            string libreOfficePath = null;
             using (var reg = Registry.LocalMachine.OpenSubKey(key, false))
             {
-                libreOfficePath = (string)reg.GetValue(null);
-                reg.Close();
+                if (reg != null)
+                {
+                    libreOfficePath = (string)reg.GetValue(null);
+                    reg.Close();
+                }
             }
 
             return libreOfficePath;
