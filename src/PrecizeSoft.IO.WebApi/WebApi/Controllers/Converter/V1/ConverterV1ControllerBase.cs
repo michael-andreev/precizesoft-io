@@ -10,6 +10,7 @@ using PrecizeSoft.IO.Converters;
 using Microsoft.Net.Http.Headers;
 using PrecizeSoft.IO.Contracts.Converters;
 using PrecizeSoft.IO.WebApi.Contracts.Converter.V1;
+using System.IO.Compression;
 
 namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
 {
@@ -79,6 +80,68 @@ namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
         }
 
         /// <summary>
+        /// Download all converted files from session in Zip arcive
+        /// </summary>
+        /// <param name="sessionId">Session ID (GUID)</param>
+        /// <returns>Files in Zip archive</returns>
+        [HttpGet("files/getBySession", Name = "GetFilesBySession")]
+        [Produces("application/octet-stream")]
+        public virtual IActionResult GetFilesBySession([FromQuery] Guid sessionId)
+        {
+            IEnumerable<IJob> jobs = this.jobService.GetJobsBySession(sessionId);
+
+            if ((jobs == null) || (jobs.Count() == 0))
+            {
+                return NotFound();
+            }
+
+            IEnumerable<Guid> fileIds = jobs
+                .Where(p => p.OutputFileId.HasValue)
+                .Select(p => p.OutputFileId.Value)
+                .ToList();
+
+            byte[] zipBytes;
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (ZipArchive zip = new ZipArchive(stream, ZipArchiveMode.Create, true))
+                {
+                    List<string> addedFileNames = new List<string>();
+
+                    foreach (Guid fileId in fileIds)
+                    {
+                        IFile file = this.fileService.GetFile(fileId);
+
+                        string fileName = file.FileName;
+
+                        int copyNumber = 1;
+                        while (addedFileNames.Where(p => p == fileName).Any())
+                        {
+                            copyNumber++;
+                            fileName =
+                                $"{Path.GetFileNameWithoutExtension(file.FileName)} ({copyNumber}){Path.GetExtension(file.FileName)}";
+                        }
+
+                        ZipArchiveEntry zipEntry = zip.CreateEntry(fileName, CompressionLevel.Fastest);
+
+                        using (Stream entryStream = zipEntry.Open())
+                        {
+                            entryStream.Write(file.Bytes, 0, file.Bytes.Length);
+                        }
+
+                        addedFileNames.Add(fileName);
+                    }
+                }
+
+                zipBytes = new byte[stream.Length];
+                stream.Position = 0;
+                stream.Read(zipBytes, 0, (int)stream.Length);
+            }
+
+            return File(zipBytes, "application/octet-stream", "getpdf.online.zip");
+        }
+
+        /// <summary>
         /// Get conversion job information by ID
         /// </summary>
         /// <param name="id">Conversion job ID (GUID)</param>
@@ -138,13 +201,41 @@ namespace PrecizeSoft.IO.WebApi.Controllers.Converter.V1
         public virtual IEnumerable<JobInfo> GetJobsBySession([FromQuery] Guid sessionId)
         {
             IEnumerable<IJob> jobs = this.jobService.GetJobsBySession(sessionId);
-            IEnumerable<Guid> fileIds = jobs.Select(p => p.InputFileId)
-                .Concat(jobs.Where(p => p.OutputFileId.HasValue).Select(p => p.OutputFileId.Value));
+            IEnumerable<Guid> fileIds = this.GetFileIdsFromJobs(jobs);
             IEnumerable<IFileInfo> files = this.fileService.GetFilesInfo(fileIds);
 
             return jobs.Select(p => p.ToJobInfo(
                 files.Single(q => q.FileId == p.InputFileId),
                 p.OutputFileId.HasValue ? files.Single(r => r.FileId == p.OutputFileId.Value) : null));
+        }
+
+        private IEnumerable<Guid> GetFileIdsFromJobs(IEnumerable<IJob> jobs)
+        {
+            return jobs.Select(p => p.InputFileId)
+                .Concat(jobs.Where(p => p.OutputFileId.HasValue)
+                .Select(p => p.OutputFileId.Value));
+        }
+
+        /// <summary>
+        /// Remove session with all files by ID
+        /// </summary>
+        /// <param name="id">Session ID (GUID)</param>
+        /// <returns></returns>
+        [HttpDelete("sessions/{id}", Name = "DeleteSession")]
+        public virtual IActionResult Delete(Guid id)
+        {
+            if (!this.jobService.SessionExists(id))
+            {
+                return NotFound();
+            }
+
+            IEnumerable<IJob> jobs = this.jobService.GetJobsBySession(id);
+            IEnumerable<Guid> fileIds = this.GetFileIdsFromJobs(jobs);
+
+            this.jobService.DeleteSession(id);
+            this.fileService.DeleteFiles(fileIds);
+
+            return new NoContentResult();
         }
 
         protected virtual JobInfo AddJobInternal(Guid? sessionId, IFormFile file)

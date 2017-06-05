@@ -15,5 +15,9 @@ namespace PrecizeSoft.IO.Contracts.Converters
         IJob GetJob(Guid jobId);
 
         IEnumerable<IJob> GetJobsBySession(Guid sessionId);
+
+        bool SessionExists(Guid sessionId);
+
+        void DeleteSession(Guid sessionId);
     }
 }

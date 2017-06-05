@@ -15,5 +15,7 @@ namespace PrecizeSoft.IO.Contracts.Converters
         IFileInfo GetFileInfo(Guid fileId);
 
         IEnumerable<IFileInfo> GetFilesInfo(IEnumerable<Guid> fileIds);
+
+        void DeleteFiles(IEnumerable<Guid> fileIds);
     }
 }
